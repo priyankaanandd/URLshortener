@@ -4,12 +4,22 @@ const cors = require("cors");
 app.use(cors());
 
 const urlRoute = require('./routes/url');
-const connectToMongoDB = require('./connect');
-const URL = require('./models/url');    
+//const connectToMongoDB = require('./connect');
+const URL = require('./models/url'); 
 
-connectToMongoDB('mongodb://localhost:27017/short-url').then(()=>{
-    console.log("Connected to MongoDB")
-})
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("✅ MongoDB Connected"))
+.catch((err) => console.error("❌ Mongo Error:", err));
+
+
+// connectToMongoDB('mongodb://localhost:27017/short-url').then(()=>{
+//     console.log("Connected to MongoDB")
+// })
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
