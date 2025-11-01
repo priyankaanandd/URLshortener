@@ -27,6 +27,13 @@ const PORT =  3000;
 
 app.use('/url', urlRoute)
 
+app.get("/", (req, res) => {
+    res.send("✅ URL Shortener Backend is Live!");
+  });
+  
+
+
+
 app.get('/:shortID',async (req,res)=>{
     const shortID = req.params.shortID;
     const entry = await URL.findOneAndUpdate(
