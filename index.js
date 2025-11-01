@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express();
+const cors = require("cors");
+app.use(cors());
+
 const urlRoute = require('./routes/url');
 const connectToMongoDB = require('./connect');
 const URL = require('./models/url');    
@@ -20,6 +23,9 @@ app.get('/:shortID',async (req,res)=>{
         {shortId: shortID},
         {$push: {visitHistory: {timestamp: Date.now()}}}
     )
+    if (!entry) {
+        return res.status(404).json({ error: "Short URL not found" });
+      }
     res.redirect(entry.redirectURL)
 
 })
